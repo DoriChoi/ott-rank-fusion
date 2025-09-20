@@ -162,3 +162,37 @@ export function exportToCSV(rankings: IntegratedRanking[], filename: string): vo
   link.click();
   document.body.removeChild(link);
 }
+
+// --- API-first loader (optional) ---
+// Tries to fetch integrated rankings from a backend (/api/rankings) if available.
+// Configure VITE_API_BASE to point to the Next.js app origin when running separately.
+export async function loadIntegratedFromAPI(week?: string, platform: string = 'all'):
+  Promise<IntegratedRanking[] | null> {
+  try {
+    const base = (import.meta as any).env?.VITE_API_BASE || '';
+    const url = new URL(base ? `${base}/api/rankings` : '/api/rankings', window.location.origin);
+    if (week) url.searchParams.set('week', week);
+    if (platform) url.searchParams.set('platform', platform);
+
+    const res = await fetch(url.toString(), { credentials: 'include' }).catch(() => null);
+    if (!res || !res.ok) return null;
+    const data = await res.json();
+    const items = Array.isArray(data?.items) ? data.items : [];
+
+    // items expected shape: { title, score, platforms, mainPlatform, totalViews, platformCount }
+    // Our IntegratedRanking additionally carries genre; leave blank if not provided by API.
+    const integrated: IntegratedRanking[] = items.map((it: any) => ({
+      title: String(it.title ?? ''),
+      score: Number(it.score ?? 0),
+      platforms: Array.isArray(it.platforms) ? it.platforms.map(String) : [],
+      mainPlatform: String(it.mainPlatform ?? ''),
+      genre: String(it.genre ?? ''),
+      totalViews: Number(it.totalViews ?? 0),
+      platformCount: Number(it.platformCount ?? 0),
+    }));
+    return integrated;
+  } catch (e) {
+    console.warn('loadIntegratedFromAPI failed, falling back to CSV', e);
+    return null;
+  }
+}

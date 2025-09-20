@@ -8,33 +8,34 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Yonsei Blue + White Light Theme */
+    --background: 0 0% 100%; /* white */
+    --foreground: 222.2 32% 10%; /* near-black for good contrast */
 
-    --card: 222.2 84% 8%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 32% 10%;
 
-    --popover: 222.2 84% 8%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 32% 10%;
 
-    --primary: 346 87% 43%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 215 100% 35%; /* Yonsei Blue */
+    --primary-foreground: 0 0% 100%; /* white text on blue */
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 210 100% 96%; /* very light blue */
+    --secondary-foreground: 215 40% 25%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 35%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 210 100% 97%;
+    --accent-foreground: 215 40% 25%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 346 87% 43%;
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 215 100% 35%;
 
     --radius: 0.75rem;
 
@@ -49,7 +50,7 @@ All colors MUST be HSL.
     --tving-foreground: 210 40% 98%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(346 87% 60%));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(215 90% 50%));
     --gradient-netflix: linear-gradient(135deg, hsl(var(--netflix)), hsl(0 87% 68%));
     --gradient-disney: linear-gradient(135deg, hsl(var(--disney)), hsl(220 91% 65%));
     --gradient-wavve: linear-gradient(135deg, hsl(var(--wavve)), hsl(35 95% 63%));

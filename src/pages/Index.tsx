@@ -11,6 +11,7 @@ import {
   exportToCSV,
   type OTTData
 } from '@/lib/data';
+import { loadIntegratedFromAPI, type IntegratedRanking } from '@/lib/data';
 
 import { PlatformCard } from '@/components/PlatformCard';
 import { IntegratedChart } from '@/components/IntegratedChart';
@@ -23,6 +24,8 @@ const Index = () => {
   const [allData, setAllData] = useState<OTTData[]>([]);
   const [filteredData, setFilteredData] = useState<OTTData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [apiIntegrated, setApiIntegrated] = useState<IntegratedRanking[] | null>(null);
+  const [apiLoading, setApiLoading] = useState(false);
   
   // URL state management
   const selectedPlatforms = searchParams.get('platforms')?.split(',').filter(Boolean) || [];
@@ -33,7 +36,7 @@ const Index = () => {
   const availablePlatforms = ['netflix', 'disney', 'wavve', 'tving'];
   const availableGenres = getAvailableGenres(allData);
   const availableWeeks = getAvailableWeeks(allData);
-  const integratedRanking = calculateIntegratedRanking(filteredData);
+  const integratedRanking = apiIntegrated ?? calculateIntegratedRanking(filteredData);
 
   // Load initial data
   useEffect(() => {
@@ -59,6 +62,26 @@ const Index = () => {
 
     loadData();
   }, []);
+
+  // Try API-integrated rankings whenever week changes
+  useEffect(() => {
+    const doFetch = async () => {
+      const currentWeek = selectedWeek || (availableWeeks.length > 0 ? availableWeeks[0] : '');
+      if (!currentWeek) return;
+      setApiLoading(true);
+      try {
+        const integrated = await loadIntegratedFromAPI(currentWeek, (selectedPlatforms && selectedPlatforms.length > 0) ? selectedPlatforms.join(',') : 'all');
+        setApiIntegrated(integrated);
+      } catch (e) {
+        console.warn('API integrated fetch failed', e);
+        setApiIntegrated(null);
+      } finally {
+        setApiLoading(false);
+      }
+    };
+    doFetch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedWeek, searchParams.toString()]);
 
   // Filter data when parameters change
   useEffect(() => {
@@ -109,7 +132,7 @@ const Index = () => {
   const totalViews = integratedRanking.reduce((sum, item) => sum + item.totalViews, 0);
   const topScore = integratedRanking.length > 0 ? integratedRanking[0].score : 0;
 
-  if (isLoading) {
+  if (isLoading || apiLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="flex items-center gap-2 text-muted-foreground">
