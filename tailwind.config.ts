@@ -47,16 +47,36 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+        netflix: {
+          DEFAULT: "hsl(var(--netflix))",
+          foreground: "hsl(var(--netflix-foreground))",
         },
+        disney: {
+          DEFAULT: "hsl(var(--disney))",
+          foreground: "hsl(var(--disney-foreground))",
+        },
+        wavve: {
+          DEFAULT: "hsl(var(--wavve))",
+          foreground: "hsl(var(--wavve-foreground))",
+        },
+        tving: {
+          DEFAULT: "hsl(var(--tving))",
+          foreground: "hsl(var(--tving-foreground))",
+        },
+      },
+      backgroundImage: {
+        "gradient-primary": "var(--gradient-primary)",
+        "gradient-netflix": "var(--gradient-netflix)",
+        "gradient-disney": "var(--gradient-disney)",
+        "gradient-wavve": "var(--gradient-wavve)",
+        "gradient-tving": "var(--gradient-tving)",
+      },
+      boxShadow: {
+        elegant: "var(--shadow-elegant)",
+        glow: "var(--shadow-glow)",
+      },
+      transitionTimingFunction: {
+        smooth: "var(--transition-smooth)",
       },
       borderRadius: {
         lg: "var(--radius)",
